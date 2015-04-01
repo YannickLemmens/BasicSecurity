@@ -4,7 +4,8 @@
         Title="Crypto Program" Height="266.851" Width="763.806">
     <Grid>
         <Button Name="encryptieButton" Content="Encryptie" HorizontalAlignment="Left" Margin="83,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Grid.Column="1" Click="Encrypt"/>
-        <Button Content="Decryptie" HorizontalAlignment="Left" Margin="389,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Grid.Column="1" Click="Decrypt"/>
+        <Button Content="Decryptie" HorizontalAlignment="Left" Margin="304,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Click="Decrypt"/>
         <Label Content="Kies de bewerking" HorizontalAlignment="Left" Margin="83,52,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button Content="Steganography" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="509,110,0,0" Height="45" Click="Button_Click_2"/>
     </Grid>
 </Window>

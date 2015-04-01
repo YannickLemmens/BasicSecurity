@@ -42,6 +42,15 @@ namespace WpfApplication1
             MessageBox.Show("decryptie");
         }
 
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            Steganography.Steganography stega = new Steganography.Steganography();
+            
+            stega.Show();
+            
+        }
+
        
     }
 }
