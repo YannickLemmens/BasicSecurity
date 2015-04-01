@@ -26,6 +26,7 @@ namespace WpfApplication1
         string Public_A;
         string Private_B;
         string Public_B;
+        string boodschap;
         
         public Encryptie()
         {
@@ -44,7 +45,9 @@ namespace WpfApplication1
                 case System.Windows.Forms.DialogResult.OK:
                     var file = fileDialog.FileName;
                     StreamReader sr = new StreamReader(file);
-                    encryptieTextbox.Text = sr.ReadToEnd();
+                    boodschap = sr.ReadToEnd();
+                    encryptieTextbox.Text = boodschap;
+                    
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
                     encryptieTextbox.Text = "Kies een bestand en klik op OK";
@@ -195,6 +198,26 @@ namespace WpfApplication1
             privateKey = rsa.ToXmlString(true);
         }
         
+        //Hashing
+
+        static byte[] GenerateSaltedHash(byte[] plainText, byte[] salt)
+        {
+            HashAlgorithm algorithm = new SHA256Managed();
+
+            byte[] plainTextWithSaltBytes =
+              new byte[plainText.Length + salt.Length];
+
+            for (int i = 0; i < plainText.Length; i++)
+            {
+                plainTextWithSaltBytes[i] = plainText[i];
+            }
+            for (int i = 0; i < salt.Length; i++)
+            {
+                plainTextWithSaltBytes[plainText.Length + i] = salt[i];
+            }
+
+            return algorithm.ComputeHash(plainTextWithSaltBytes);
+        }
 
     }     
 }
