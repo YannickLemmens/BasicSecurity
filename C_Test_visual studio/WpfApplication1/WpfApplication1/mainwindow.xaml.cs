@@ -39,7 +39,9 @@ namespace WpfApplication1
 
         private void Decrypt(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("decryptie");
+            this.Hide();
+            Decryptie d = new Decryptie();
+            d.Show();
         }
 
 

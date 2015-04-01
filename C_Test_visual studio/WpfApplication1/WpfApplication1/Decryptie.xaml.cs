@@ -26,8 +26,7 @@ namespace WpfApplication1
         String File_3;
         String Public_A;
         String Private_B;
-        String outputtest = "C:\\Users\\11301151\\Documents\\CryptoProgramOutput\\test.txt";
-        String path = "";
+        String outputtest = "C:\\Users\\11301151\\Documents\\CryptoProgramOutput\\File.txt";
         public Decryptie()
         {
             InitializeComponent();
