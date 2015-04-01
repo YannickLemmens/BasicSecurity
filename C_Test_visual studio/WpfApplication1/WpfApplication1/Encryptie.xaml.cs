@@ -65,6 +65,7 @@ namespace WpfApplication1
 
                 
                 System.IO.File.WriteAllText(@".\aeskey.txt", encKey);
+                MessageBox.Show("AES key staat in /bin/debug");
             }
 
                 

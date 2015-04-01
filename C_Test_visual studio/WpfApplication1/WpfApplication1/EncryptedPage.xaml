@@ -4,6 +4,5 @@
         Title="EncryptedPage" Height="300" Width="300">
     <Grid>
         <Label Name="encryptedlabel" Content="Label" HorizontalAlignment="Left" Margin="68,48,0,0" VerticalAlignment="Top" Height="131" Width="163"/>
-        <TextBox Name="test" HorizontalAlignment="Left" Height="53" Margin="43,165,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="164"/>
     </Grid>
 </Window>
