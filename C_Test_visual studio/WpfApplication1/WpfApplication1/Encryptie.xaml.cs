@@ -22,6 +22,10 @@ namespace WpfApplication1
     /// </summary>
     public partial class Encryptie : Window
     {
+        string Private_A;
+        string Public_A;
+        string Private_B;
+        string Public_B;
         
         public Encryptie()
         {
@@ -60,15 +64,36 @@ namespace WpfApplication1
 
                  //Encrypt the string to an array of bytes. 
                 byte[] encrypted = EncryptStringToBytes_Aes(encString,myAes.Key, myAes.IV);
-                string encKey = System.Text.Encoding.UTF8.GetString(encrypted);
+                string encKey = System.Text.Encoding.UTF8.GetString(myAes.Key);
                 encPage.encryptedlabel.Content = encKey;
+                string encryptedMessage = System.Text.Encoding.UTF8.GetString(encrypted);
+                encPage.testlabel.Content = encryptedMessage;
 
-                
-                System.IO.File.WriteAllText(@".\aeskey.txt", encKey);
-                MessageBox.Show("AES key staat in /bin/debug");
+
+
+                File.WriteAllText(@"./File_1.txt", encryptedMessage);
+                MessageBox.Show("Encrypted messagestaat in /bin/debug");
             }
 
-                
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048);
+            Public_A = rsa.ToXmlString(false);
+            Private_A = rsa.ToXmlString(true);
+            RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider(2048);
+            Public_B = rsa2.ToXmlString(false);
+            Private_B = rsa2.ToXmlString(true);
+
+            File.WriteAllText(@".\Public_A.txt", Public_A);
+            File.WriteAllText(@".\Private_A.txt", Private_A);
+            File.WriteAllText(@".\Public_B.txt", Public_B);
+            File.WriteAllText(@".\Private_B.txt", Private_B);
+
+
+            using (Aes Aes2 = Aes.Create())
+            {
+                byte[] waytoFile2 = EncryptStringToBytes_Aes(Public_B, Aes2.Key, Aes2.IV);
+                string encryptedMessageBobKey = System.Text.Encoding.UTF8.GetString(waytoFile2);
+                File.WriteAllText(@"./File_2.txt", encryptedMessageBobKey);
+            }
         
 
         }
