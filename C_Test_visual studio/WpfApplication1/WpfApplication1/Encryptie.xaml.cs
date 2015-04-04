@@ -22,17 +22,18 @@ namespace WpfApplication1
     /// </summary>
     public partial class Encryptie : Window
     {
-        string Private_A;
+        static string Private_A;
         string Public_A;
         string Private_B;
         string Public_B;
         string boodschap;
+        static string hashNotCrypted;
+        static string hashCrypted;
         
         public Encryptie()
         {
             InitializeComponent();
-            encryptieTextbox.IsReadOnly = true;
-            
+            encryptieTextbox.IsReadOnly = true;           
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -46,14 +47,12 @@ namespace WpfApplication1
                     var file = fileDialog.FileName;
                     StreamReader sr = new StreamReader(file);
                     boodschap = sr.ReadToEnd();
-                    encryptieTextbox.Text = boodschap;
-                    
+                    encryptieTextbox.Text = boodschap;                
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
                     encryptieTextbox.Text = "Kies een bestand en klik op OK";
                     break;
             }
-
         }
 
         private void Start_Encryptie(object sender, RoutedEventArgs e)
@@ -64,15 +63,12 @@ namespace WpfApplication1
             encPage.Show();
             using (Aes myAes = Aes.Create())
             {
-
                  //Encrypt the string to an array of bytes. 
                 byte[] encrypted = EncryptStringToBytes_Aes(encString,myAes.Key, myAes.IV);
                 string encKey = System.Text.Encoding.UTF8.GetString(myAes.Key);
                 encPage.encryptedlabel.Content = encKey;
                 string encryptedMessage = System.Text.Encoding.UTF8.GetString(encrypted);
                 encPage.testlabel.Content = encryptedMessage;
-
-
 
                 File.WriteAllText(@"./File_1.txt", encryptedMessage);
                 MessageBox.Show("Encrypted messagestaat in /bin/debug");
@@ -90,17 +86,13 @@ namespace WpfApplication1
             File.WriteAllText(@".\Public_B.txt", Public_B);
             File.WriteAllText(@".\Private_B.txt", Private_B);
 
-
             using (Aes Aes2 = Aes.Create())
             {
                 byte[] waytoFile2 = EncryptStringToBytes_Aes(Public_B, Aes2.Key, Aes2.IV);
                 string encryptedMessageBobKey = System.Text.Encoding.UTF8.GetString(waytoFile2);
                 File.WriteAllText(@"./File_2.txt", encryptedMessageBobKey);
-            }
-        
-
+            }      
         }
-
 
 
         static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key,byte[] IV)
@@ -122,7 +114,7 @@ namespace WpfApplication1
 
                 // Create a decrytor to perform the stream transform.
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
+               
                 // Create the streams used for encryption. 
                 using (MemoryStream msEncrypt = new MemoryStream())
                 {
@@ -130,20 +122,15 @@ namespace WpfApplication1
                     {
                         using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                         {
-
                             //Write all data to the stream.
-                            swEncrypt.Write(plainText);
-                            
+                            swEncrypt.Write(plainText);                         
                         }
                         encrypted = msEncrypt.ToArray();
                     }
                 }
             }
-
-
             // Return the encrypted bytes from the memory stream. 
             return encrypted;
-
         }
 
         static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
@@ -186,10 +173,9 @@ namespace WpfApplication1
                 }
 
             }
-
             return plaintext;
-
         }
+
 
         public static void GenerateRSAKeyPair(out string publicKey, out string privateKey)
         {
@@ -198,33 +184,44 @@ namespace WpfApplication1
             privateKey = rsa.ToXmlString(true);
         }
 
-        //Hashing
 
-        static void Hash(string boodschap)
+      // !!Begin code ivm hashing!!
+
+        public static void CreateHash(string boodschap)
         {
             string source = boodschap ;
             using (MD5 md5Hash = MD5.Create())
             {
+                //maken hash
                 string hash = GetMd5Hash(md5Hash, source);
+                hashNotCrypted = hash;
 
-                Console.WriteLine("The MD5 hash of " + source + " is: " + hash + ".");
-
-                Console.WriteLine("Verifying the hash...");
-
-                if (VerifyMd5Hash(md5Hash, source, hash))
+                //encrypteren hash met private key Alice en opslaan in File_3
+                using (Aes Aes2 = Aes.Create())
                 {
-                    Console.WriteLine("The hashes are the same.");
-                }
-                else
-                {
-                    Console.WriteLine("The hashes are not same.");
-                }
+                    byte[] waytoFile3 = EncryptStringToBytes_Aes(Private_A, Aes2.Key, Aes2.IV);
+                    string hashCrypted = System.Text.Encoding.UTF8.GetString(waytoFile3);
+                    File.WriteAllText(@"./File_3.txt", hashCrypted);
+                }      
+                //Console.WriteLine("The MD5 hash of " + source + " is: " + hash + ".");
+
+                //Console.WriteLine("Verifying the hash...");
+
+                //if (VerifyMd5Hash(md5Hash, source, hash))
+                //{
+                //    Console.WriteLine("The hashes are the same.");
+                //}
+                //else
+                //{
+                //    Console.WriteLine("The hashes are not same.");
+                //}
             }
 
-
-
+           
         }
-        static string GetMd5Hash(MD5 md5Hash, string input)
+
+
+        public static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
             // Convert the input string to a byte array and compute the hash. 
@@ -245,8 +242,9 @@ namespace WpfApplication1
             return sBuilder.ToString();
         }
 
+
         // Verify a hash against a string. 
-        static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
+        public static bool VerifyMd5Hash(MD5 md5Hash, string input, string hash)
         {
             // Hash the input. 
             string hashOfInput = GetMd5Hash(md5Hash, input);
@@ -263,8 +261,6 @@ namespace WpfApplication1
                 return false;
             }
         }
-
-
 
 
     }     
