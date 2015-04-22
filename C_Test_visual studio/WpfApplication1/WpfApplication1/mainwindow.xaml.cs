@@ -32,11 +32,6 @@ namespace WpfApplication1
             encScherm.Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("test");
-        }
-
         private void Decrypt(object sender, RoutedEventArgs e)
         {
             this.Hide();
