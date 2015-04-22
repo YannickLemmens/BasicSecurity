@@ -32,8 +32,7 @@ namespace WpfApplication1
         
         public Encryptie()
         {
-            InitializeComponent();
-            encryptieTextbox.IsReadOnly = true;           
+            InitializeComponent();          
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -64,14 +63,14 @@ namespace WpfApplication1
             using (Aes myAes = Aes.Create())
             {
                  //Encrypt the string to an array of bytes. 
-                byte[] encrypted = EncryptStringToBytes_Aes(encString,myAes.Key, myAes.IV);
+                byte[] encrypted = EncryptStringToBytes_Aes(encString, myAes.Key, myAes.IV);
                 string encKey = System.Text.Encoding.UTF8.GetString(myAes.Key);
                 encPage.encryptedlabel.Content = encKey;
                 string encryptedMessage = System.Text.Encoding.UTF8.GetString(encrypted);
                 encPage.testlabel.Content = encryptedMessage;
 
                 File.WriteAllText(@"./File_1.txt", encryptedMessage);
-                MessageBox.Show("Encrypted messagestaat in /bin/debug");
+                MessageBox.Show("Encrypted message staat in /bin/debug");
             }
 
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048);
@@ -91,7 +90,12 @@ namespace WpfApplication1
                 byte[] waytoFile2 = EncryptStringToBytes_Aes(Public_B, Aes2.Key, Aes2.IV);
                 string encryptedMessageBobKey = System.Text.Encoding.UTF8.GetString(waytoFile2);
                 File.WriteAllText(@"./File_2.txt", encryptedMessageBobKey);
-            }      
+            }
+
+            CreateHash(encString);
+
+    
+
         }
 
 
@@ -133,48 +137,48 @@ namespace WpfApplication1
             return encrypted;
         }
 
-        static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
-        {
-            // Check arguments. 
-            if (cipherText == null || cipherText.Length <= 0)
-                throw new ArgumentNullException("cipherText");
-            if (Key == null || Key.Length <= 0)
-                throw new ArgumentNullException("Key");
-            if (IV == null || IV.Length <= 0)
-                throw new ArgumentNullException("Key");
+        //static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+        //{
+        //    // Check arguments. 
+        //    if (cipherText == null || cipherText.Length <= 0)
+        //        throw new ArgumentNullException("cipherText");
+        //    if (Key == null || Key.Length <= 0)
+        //        throw new ArgumentNullException("Key");
+        //    if (IV == null || IV.Length <= 0)
+        //        throw new ArgumentNullException("Key");
 
-            // Declare the string used to hold 
-            // the decrypted text. 
-            string plaintext = null;
+        //    // Declare the string used to hold 
+        //    // the decrypted text. 
+        //    string plaintext = null;
 
-            // Create an Aes object 
-            // with the specified key and IV. 
-            using (Aes aesAlg = Aes.Create())
-            {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+        //    // Create an Aes object 
+        //    // with the specified key and IV. 
+        //    using (Aes aesAlg = Aes.Create())
+        //    {
+        //        aesAlg.Key = Key;
+        //        aesAlg.IV = IV;
 
-                // Create a decrytor to perform the stream transform.
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+        //        // Create a decrytor to perform the stream transform.
+        //        ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-                // Create the streams used for decryption. 
-                using (MemoryStream msDecrypt = new MemoryStream(cipherText))
-                {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
+        //        // Create the streams used for decryption. 
+        //        using (MemoryStream msDecrypt = new MemoryStream(cipherText))
+        //        {
+        //            using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+        //            {
+        //                using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+        //                {
 
-                            // Read the decrypted bytes from the decrypting stream
-                                // and place them in a string.
-                                                        plaintext = srDecrypt.ReadToEnd();
-                        }
-                    }
-                }
+        //                    // Read the decrypted bytes from the decrypting stream
+        //                        // and place them in a string.
+        //                                                plaintext = srDecrypt.ReadToEnd();
+        //                }
+        //            }
+        //        }
 
-            }
-            return plaintext;
-        }
+        //    }
+        //    return plaintext;
+        //}
 
 
         public static void GenerateRSAKeyPair(out string publicKey, out string privateKey)
