@@ -26,8 +26,10 @@ namespace WpfApplication1
         String File_3;
         String Public_A;
         String Private_B;
-        String outputtest = "C:\\Users\\11301151\\Documents\\CryptoProgramOutput\\File.txt";
+        String symmKey;
+        String docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         String label;
+        String outputPath;
         String labelDecrypted;
         String hash;
         String hashDecryptie;
@@ -40,62 +42,50 @@ namespace WpfApplication1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             File_1 = LaadIn();
-            StreamReader sr = new StreamReader(File_1);
-            File_1 = sr.ReadToEnd();
             MessageBox.Show(File_1);
             
         }
 
         private void File2_Click(object sender, RoutedEventArgs e)
         {
-            //File_2 = LaadIn();
-            //MessageBox.Show(File_2);
             File_2 = LaadIn();
-            StreamReader sr = new StreamReader(File_2);
-            File_2 = sr.ReadToEnd();
             MessageBox.Show(File_2);
         }
 
         private void File3_Click(object sender, RoutedEventArgs e)
         {
-            //File_3 = LaadIn();
-            //MessageBox.Show(File_3);
             File_3 = LaadIn();
-            StreamReader sr = new StreamReader(File_3);
-            File_3 = sr.ReadToEnd();
             MessageBox.Show(File_3);
         }
 
         private void PublicA_Click(object sender, RoutedEventArgs e)
         {
-            //Public_A = LaadIn();
-            //MessageBox.Show(Public_A);
-
             Public_A = LaadIn();
-            StreamReader sr = new StreamReader(Public_A);
-            Public_A = sr.ReadToEnd();
             MessageBox.Show(Public_A);
         }
 
         private void PrivateB_Click(object sender, RoutedEventArgs e)
         {
-            //Private_B = LaadIn();
-            //MessageBox.Show(Private_B);
-
             Private_B = LaadIn();
-            StreamReader sr = new StreamReader(Private_B);
-            Private_B = sr.ReadToEnd();
             MessageBox.Show(Private_B);
         }
 
         private void start_Click(object sender, RoutedEventArgs e)
         {
-            DecryptFile(File_2, label, Private_B);
-            DecryptFile(File_1,labelDecrypted,label);
-            labeltekst.Content = labelDecrypted;
-            CreateHash(labelDecrypted);
-            DecryptFile(File_3, hash, Public_A);
-            CreateHash(hash);
+            if (File_1 != "" && File_2 != "" && File_3 != "" && Private_B != "" && Public_A != "")
+            {
+                outputPath = System.IO.Path.Combine(docPath, "symmKey");
+                DecryptFile(File_2, outputPath, Private_B);
+                symmKey = LaadIn();
+                outputPath = System.IO.Path.Combine(docPath, "File_1");
+                DecryptFile(File_1, outputPath,symmKey);
+                outputPath = System.IO.Path.Combine(docPath, "File_3");
+                DecryptFile(File_3, outputPath, Public_A);
+                //labeltekst.Content = labelDecrypted;
+                //CreateHash(labelDecrypted);
+                //DecryptFile(File_3, hash, Public_A);
+                //CreateHash(hash);
+            }
         }
         private static void DecryptFile(string inputFile, string outputFile, string skey)
         {
@@ -145,7 +135,7 @@ namespace WpfApplication1
             switch (result)
             {
                 case System.Windows.Forms.DialogResult.OK:
-                    k = fileDialog.FileName;
+                    k = File.ReadAllText(fileDialog.FileName);
                     break;
                 case System.Windows.Forms.DialogResult.Cancel:
                     k = "";
