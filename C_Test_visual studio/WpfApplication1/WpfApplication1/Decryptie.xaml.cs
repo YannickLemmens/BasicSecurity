@@ -34,6 +34,8 @@ namespace WpfApplication1
         String hash;
         String hashDecryptie;
 
+        string test = "";
+
         public Decryptie()
         {
             InitializeComponent();
@@ -43,7 +45,7 @@ namespace WpfApplication1
         {
             File_1 = LaadIn();
             MessageBox.Show(File_1);
-            
+
         }
 
         private void File2_Click(object sender, RoutedEventArgs e)
@@ -75,10 +77,11 @@ namespace WpfApplication1
             if (File_1 != "" && File_2 != "" && File_3 != "" && Private_B != "" && Public_A != "")
             {
                 outputPath = System.IO.Path.Combine(docPath, "symmKey");
-                DecryptFile(File_2, outputPath, Private_B);
+                string fullPath = System.IO.Path.GetFullPath("File_2.txt");
+                DecryptFile(fullPath, outputPath, Private_B);
                 symmKey = LaadIn();
                 outputPath = System.IO.Path.Combine(docPath, "File_1");
-                DecryptFile(File_1, outputPath,symmKey);
+                DecryptFile(File_1, outputPath, symmKey);
                 outputPath = System.IO.Path.Combine(docPath, "File_3");
                 DecryptFile(File_3, outputPath, Public_A);
                 //labeltekst.Content = labelDecrypted;
@@ -98,7 +101,7 @@ namespace WpfApplication1
                     aes.Mode = CipherMode.CBC;
                     byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
                     byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
- 
+
                     using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
                     {
                         using (FileStream fsOut = new FileStream(outputFile, FileMode.Create))
@@ -118,16 +121,18 @@ namespace WpfApplication1
                         }
                     }
                     MessageBox.Show("Decryptie Gelukt");
-                   
+
                 }
-                
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.StackTrace);
             }
         }
-        public String LaadIn() {
+
+        public String LaadIn()
+        {
             var fileDialog = new System.Windows.Forms.OpenFileDialog();
             fileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             var result = fileDialog.ShowDialog();
@@ -146,16 +151,16 @@ namespace WpfApplication1
 
         public static void CreateHash(string boodschap)
         {
-            string source = boodschap ;
+            string source = boodschap;
             using (MD5 md5Hash = MD5.Create())
             {
                 //maken hash
                 GetMd5Hash(md5Hash, source);
-                
+
             }
         }
 
-              public static string GetMd5Hash(MD5 md5Hash, string input)
+        public static string GetMd5Hash(MD5 md5Hash, string input)
         {
 
             // Convert the input string to a byte array and compute the hash. 
