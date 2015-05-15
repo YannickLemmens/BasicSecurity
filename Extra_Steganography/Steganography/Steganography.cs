@@ -46,9 +46,29 @@ namespace Steganography
             bmp = SteganographyHelper.embedText(text, bmp);
 
             MessageBox.Show("Your text was hidden in the image successfully!", "Done");
+            maakLeeg();
 
-            notesLabel.Text = "Notes: don't forget to save your new image.";
-            notesLabel.ForeColor = Color.OrangeRed;
+            SaveFileDialog save_dialog = new SaveFileDialog();
+            save_dialog.Filter = "Png Image|*.png|Bitmap Image|*.bmp";
+
+            if (save_dialog.ShowDialog() == DialogResult.OK)
+            {
+                switch (save_dialog.FilterIndex)
+                {
+                    case 0:
+                        {
+                            bmp.Save(save_dialog.FileName, ImageFormat.Png);
+                        } break;
+                    case 1:
+                        {
+                            bmp.Save(save_dialog.FileName, ImageFormat.Bmp);
+                        } break;
+                }
+
+                
+            }
+
+
         }
 
         private void extractButton_Click(object sender, EventArgs e)
@@ -82,58 +102,21 @@ namespace Steganography
             if (open_dialog.ShowDialog() == DialogResult.OK)
             {
                 imagePictureBox.Image = Image.FromFile(open_dialog.FileName);
+                maakLeeg();
             }
         }
 
-        private void imageToolStripMenuItem_Click(object sender, EventArgs e)
+        private void maakLeeg()
         {
-            SaveFileDialog save_dialog = new SaveFileDialog();
-            save_dialog.Filter = "Png Image|*.png|Bitmap Image|*.bmp";
-
-            if (save_dialog.ShowDialog() == DialogResult.OK)
-            {
-                switch (save_dialog.FilterIndex)
-                {
-                    case 0:
-                        {
-                            bmp.Save(save_dialog.FileName, ImageFormat.Png);
-                        }break;
-                    case 1:
-                        {
-                            bmp.Save(save_dialog.FileName, ImageFormat.Bmp);
-                        } break;
-                }
-
-                notesLabel.Text = "Notes:";
-                notesLabel.ForeColor = Color.Black;
-            }
+            dataTextBox.Text = "";
+            passwordTextBox.Text = "";
+            encryptCheckBox.Checked = false;
         }
 
-        private void textToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Menuknop_Click(object sender, EventArgs e)
         {
-            SaveFileDialog save_dialog = new SaveFileDialog();
-            save_dialog.Filter = "Text Files|*.txt";
-
-            if (save_dialog.ShowDialog() == DialogResult.OK)
-            {
-                File.WriteAllText(save_dialog.FileName, dataTextBox.Text);
-            }
+            this.Close();
         }
-
-        private void textToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog open_dialog = new OpenFileDialog();
-            open_dialog.Filter = "Text Files|*.txt";
-
-            if (open_dialog.ShowDialog() == DialogResult.OK)
-            {
-                dataTextBox.Text = File.ReadAllText(open_dialog.FileName);
-            }
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("By: Hamzeh Soboh © 2013", "About");
-        }
+        
     }
 }
