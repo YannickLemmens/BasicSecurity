@@ -3,11 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Encryptie" Height="500" Width="600">
     <Grid>
-        <Button Content="Browse for file" HorizontalAlignment="Left" Margin="81,16,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click"/>
-        <Label Content="Stap 1" HorizontalAlignment="Left" Margin="20,13,0,0" VerticalAlignment="Top"/>
-        <Label Content="Stap 2" HorizontalAlignment="Left" Margin="20,65,0,0" VerticalAlignment="Top"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF363636" Offset="1"/>
+                <GradientStop Color="#FF7C7C7C"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Button Content="Browse for file" Foreground="White" HorizontalAlignment="Left" Margin="81,16,0,0" VerticalAlignment="Top" Width="104" Click="Button_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Label Content="Stap 1" Foreground="White" HorizontalAlignment="Left" Margin="20,13,0,0" VerticalAlignment="Top"/>
+        <Label Content="Stap 2" Foreground="White" HorizontalAlignment="Left" Margin="20,65,0,0" VerticalAlignment="Top"/>
         <TextBox Name="encryptieTextbox" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Stretch" Margin="10,91,10,100" IsEnabled="False"/>
-        <Button Content="Start " VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50" Width="75" Click="Start_Encryptie"/>
+        <Button Content="Start " Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,50,50" Width="75" Click="Start_Encryptie">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

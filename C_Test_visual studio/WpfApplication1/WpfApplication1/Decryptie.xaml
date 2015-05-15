@@ -3,17 +3,65 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Decryptie" Height="363" Width="376">
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF363636" Offset="1"/>
+                <GradientStop Color="#FF7C7C7C"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="start" Grid.ColumnSpan="2" Content="Start" HorizontalAlignment="Left" Margin="267,284,0,0" VerticalAlignment="Top" Width="79" Height="22" Click="start_Click"/>
-        <Button x:Name="File1" Grid.ColumnSpan="2" Content="File 1" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button x:Name="File2" Grid.ColumnSpan="2" Content="File 2" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="75" Click="File2_Click"/>
-        <Button x:Name="File3" Grid.ColumnSpan="2" Content="File 3" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Width="75" Click="File3_Click"/>
-        <Button x:Name="PrivateB" Grid.ColumnSpan="2" Content="Private B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,208,0,0" Click="PrivateB_Click"/>
-        <Button x:Name="PublicA"  Grid.ColumnSpan="2" Content="Public A" HorizontalAlignment="Left" Margin="10,163,0,0" VerticalAlignment="Top" Width="75" Click="PublicA_Click"/>
-        <Label x:Name="labeltekst" Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top" Height="250" Width="210"/>
+        <Button x:Name="start" Grid.ColumnSpan="2" Content="Start" HorizontalAlignment="Left" Margin="267,284,0,0" VerticalAlignment="Top" Width="79" Height="22" Click="start_Click" Foreground="White">
+        <Button.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFAE5B03" Offset="1"/>
+                <GradientStop Color="#FFC96800"/>
+            </LinearGradientBrush>
+        </Button.Background>
+        </Button>
+        <Button x:Name="File1" Foreground="White" Grid.ColumnSpan="2" Content="File 1" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="File2" Grid.ColumnSpan="2" Content="File 2" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="75" Click="File2_Click" Foreground="White">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="File3" Grid.ColumnSpan="2" Content="File 3" HorizontalAlignment="Left" Margin="10,119,0,0" VerticalAlignment="Top" Width="75" Click="File3_Click" Foreground="White">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="PrivateB" Grid.ColumnSpan="2" Content="Private B" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,208,0,0" Click="PrivateB_Click" Foreground="White">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button x:Name="PublicA"  Grid.ColumnSpan="2" Content="Public A" HorizontalAlignment="Left" Margin="10,163,0,0" VerticalAlignment="Top" Width="75" Click="PublicA_Click" Foreground="White">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Label x:Name="labeltekst" Foreground="White" Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top" Height="250" Width="210"/>
 
     </Grid>
 </Window>

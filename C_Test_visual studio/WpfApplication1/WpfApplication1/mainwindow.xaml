@@ -3,9 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Crypto Program" Height="266.851" Width="763.806">
     <Grid>
-        <Button Name="encryptieButton" Content="Encryptie" HorizontalAlignment="Left" Margin="83,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Grid.Column="1" Click="Encrypt"/>
-        <Button Content="Decryptie" HorizontalAlignment="Left" Margin="304,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Click="Decrypt"/>
-        <Label Content="Kies de bewerking" HorizontalAlignment="Left" Margin="83,52,0,0" VerticalAlignment="Top" Grid.Column="1"/>
-        <Button Content="Steganography" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="509,110,0,0" Height="45" Click="Button_Click_2"/>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF363636" Offset="1"/>
+                <GradientStop Color="#FF7C7C7C"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Button Name="encryptieButton" Foreground="White" Content="Encryptie" HorizontalAlignment="Left" Margin="83,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Grid.Column="1" Click="Encrypt">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="Decryptie" Foreground="White" HorizontalAlignment="Left" Margin="304,110,0,0" VerticalAlignment="Top" Width="150" Height="45" Click="Decrypt">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Label Content="Kies de bewerking" Foreground="White" HorizontalAlignment="Left" Margin="83,52,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Button Content="Steganography"  Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="509,110,0,0" Height="45" Click="Button_Click_2">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFAE5B03" Offset="1"/>
+                    <GradientStop Color="#FFC96800"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>
