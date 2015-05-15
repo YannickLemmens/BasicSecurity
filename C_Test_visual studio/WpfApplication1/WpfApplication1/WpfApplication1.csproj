@@ -58,10 +58,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="EncryptedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Encryptie.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -76,9 +72,6 @@
     </Compile>
     <Compile Include="Decryptie.xaml.cs">
       <DependentUpon>Decryptie.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EncryptedPage.xaml.cs">
-      <DependentUpon>EncryptedPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Encryptie.xaml.cs">
       <DependentUpon>Encryptie.xaml</DependentUpon>

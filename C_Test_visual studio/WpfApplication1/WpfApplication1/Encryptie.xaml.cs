@@ -58,16 +58,14 @@ namespace WpfApplication1
         {
             String encString = encryptieTextbox.Text;
             this.Close();
-            EncryptedPage encPage = new EncryptedPage();
-            encPage.Show();
+            MainWindow main = new MainWindow();
+            main.Show();
             using (Aes myAes = Aes.Create())
             {
                  //Encrypt the string to an array of bytes. 
                 byte[] encrypted = EncryptStringToBytes_Aes(encString, myAes.Key, myAes.IV);
                 string encKey = System.Text.Encoding.UTF8.GetString(myAes.Key);
-                encPage.encryptedlabel.Content = encKey;
                 string encryptedMessage = System.Text.Encoding.UTF8.GetString(encrypted);
-                encPage.testlabel.Content = encryptedMessage;
 
                 File.WriteAllText(@"./File_1.txt", encryptedMessage);
                 MessageBox.Show("Encrypted message staat in /bin/debug");

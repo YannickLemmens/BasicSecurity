@@ -61,7 +61,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Label x:Name="labeltekst" Foreground="White" Grid.ColumnSpan="2" Content="Label" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top" Height="250" Width="210"/>
+        <Label x:Name="labeltekst" Foreground="White" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="136,13,0,0" VerticalAlignment="Top" Height="250" Width="210"/>
 
     </Grid>
 </Window>
