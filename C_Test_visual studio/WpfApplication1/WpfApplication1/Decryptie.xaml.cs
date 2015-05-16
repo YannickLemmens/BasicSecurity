@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,20 +22,17 @@ namespace WpfApplication1
     /// </summary>
     public partial class Decryptie : Window
     {
-        String File_1;
-        String File_2;
-        String File_3;
-        String Public_A;
-        String Private_B;
-        String symmKey;
-        String docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        String label;
-        String outputPath;
-        String labelDecrypted;
-        String hash;
-        String hashDecryptie;
+        string File_1;
+        string File_2;
+        string File_3;
+        string Public_A;
+        string Private_B;
 
-        string test = "";
+        int hash_decrypted;
+
+        public byte[] desKey;
+        public byte[] desIV;
+
 
         public Decryptie()
         {
@@ -43,144 +41,169 @@ namespace WpfApplication1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            File_1 = LaadIn();
-            MessageBox.Show(File_1);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // save name of file in filename var
+                string filename = dlg.FileName;
+                File1.Content = "File 1 ingeladen";
+                File_1 = filename;
+            }
 
         }
 
         private void File2_Click(object sender, RoutedEventArgs e)
         {
-            File_2 = LaadIn();
-            MessageBox.Show(File_2);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // save name of file in filename var
+                string filename = dlg.FileName;
+                File2.Content = "File 2 ingeladen";
+                File_2 = filename;
+            }
         }
 
         private void File3_Click(object sender, RoutedEventArgs e)
         {
-            File_3 = LaadIn();
-            MessageBox.Show(File_3);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // save name of file in filename var
+                string filename = dlg.FileName;
+                File3.Content = "File 3 ingeladen";
+                File_3 = filename;
+            }
         }
 
         private void PublicA_Click(object sender, RoutedEventArgs e)
         {
-            Public_A = LaadIn();
-            MessageBox.Show(Public_A);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // save name of file in filename var
+                string filename = dlg.FileName;
+                PublicA.Content = "Public key A ingeladen";
+                Public_A = filename;
+            }
         }
 
         private void PrivateB_Click(object sender, RoutedEventArgs e)
         {
-            Private_B = LaadIn();
-            MessageBox.Show(Private_B);
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All files (*.*)|*.*";
+
+            // Show open file dialog box
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Process open file dialog box results 
+            if (result == true)
+            {
+                // save name of file in filename var
+                string filename = dlg.FileName;
+                PrivateB.Content = "Private key B ingeladen";
+                Private_B = filename;
+            }
         }
 
         private void start_Click(object sender, RoutedEventArgs e)
         {
             if (File_1 != "" && File_2 != "" && File_3 != "" && Private_B != "" && Public_A != "")
             {
-                outputPath = System.IO.Path.Combine(docPath, "symmKey");
-                string fullPath = System.IO.Path.GetFullPath("File_2.txt");
-                DecryptFile(fullPath, outputPath, Private_B);
-                symmKey = LaadIn();
-                outputPath = System.IO.Path.Combine(docPath, "File_1");
-                DecryptFile(File_1, outputPath, symmKey);
-                outputPath = System.IO.Path.Combine(docPath, "File_3");
-                DecryptFile(File_3, outputPath, Public_A);
-                //labeltekst.Content = labelDecrypted;
-                //CreateHash(labelDecrypted);
-                //DecryptFile(File_3, hash, Public_A);
-                //CreateHash(hash);
+                Byte[] decData;
+                DecryptDesKey(File_2);
+
+                decData = File.ReadAllBytes(File_1);
+
+                DecryptFile(decData, @"DecryptedTekst.txt", desKey, desIV);
+                hash_decrypted = File.ReadAllText("DecryptedTekst.txt").GetHashCode();
+
+                Decrypted decryptWindow = new Decrypted();
+                decryptWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Gelieve eerst de nodige files in te laden.");
             }
         }
-        private static void DecryptFile(string inputFile, string outputFile, string skey)
+
+
+
+        private void DecryptDesKey(string file)
         {
-            try
+            byte[] encKey;
+            byte[] encIV;
+            string encKeyIV = "";
+
+            byte[] DecKey;
+            byte[] DecIV;
+
+            using (StreamReader sr = File.OpenText("File_2.txt"))
             {
-                using (RijndaelManaged aes = new RijndaelManaged())
-                {
-                    aes.BlockSize = 128;
-                    aes.KeySize = 256;
-                    aes.Mode = CipherMode.CBC;
-                    byte[] key = ASCIIEncoding.UTF8.GetBytes(skey);
-                    byte[] IV = ASCIIEncoding.UTF8.GetBytes(skey);
-
-                    using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
-                    {
-                        using (FileStream fsOut = new FileStream(outputFile, FileMode.Create))
-                        {
-                            using (ICryptoTransform decryptor = aes.CreateDecryptor(key, IV))
-                            {
-                                using (CryptoStream cs = new CryptoStream(fsCrypt, decryptor, CryptoStreamMode.Read))
-                                {
-                                    int data;
-                                    while ((data = cs.ReadByte()) != -1)
-                                    {
-                                        fsOut.WriteByte((byte)data);
-                                        
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    MessageBox.Show("Decryptie Gelukt");
-
-                }
-
+                encKeyIV = sr.ReadToEnd();
             }
-            catch (Exception ex)
+
+            char[] seperator = { ':' };
+            string[] split = encKeyIV.Split(seperator);
+            encKey = Convert.FromBase64String(split[0]);
+            encIV = Convert.FromBase64String(split[1]);
+
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
             {
-                MessageBox.Show(ex.StackTrace);
+                string Private_Bxml = File.ReadAllText(Private_B);
+                rsa.FromXmlString(Private_Bxml);
+                DecKey = rsa.Decrypt(encKey, false);
+                DecIV = rsa.Decrypt(encIV, false);
             }
+
+            desKey = DecKey;
+            desIV = DecIV;
         }
 
-        public String LaadIn()
-        {
-            var fileDialog = new System.Windows.Forms.OpenFileDialog();
-            fileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-            var result = fileDialog.ShowDialog();
-            String k = "";
-            switch (result)
-            {
-                case System.Windows.Forms.DialogResult.OK:
-                    k = File.ReadAllText(fileDialog.FileName);
-                    break;
-                case System.Windows.Forms.DialogResult.Cancel:
-                    k = "";
-                    break;
-            }
-            return k;
-        }
 
-        public static void CreateHash(string boodschap)
-        {
-            string source = boodschap;
-            using (MD5 md5Hash = MD5.Create())
-            {
-                //maken hash
-                GetMd5Hash(md5Hash, source);
-
-            }
-        }
-
-        public static string GetMd5Hash(MD5 md5Hash, string input)
+        private void DecryptFile(Byte[] Data, String FileName, byte[] Key, byte[] IV)
         {
 
-            // Convert the input string to a byte array and compute the hash. 
-            byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 
-            // Create a new Stringbuilder to collect the bytes 
-            // and create a string.
-            StringBuilder sBuilder = new StringBuilder();
-
-            // Loop through each byte of the hashed data  
-            // and format each one as a hexadecimal string. 
-            for (int i = 0; i < data.Length; i++)
-            {
-                sBuilder.Append(data[i].ToString("x2"));
-            }
-
-            // Return the hexadecimal string. 
-            return sBuilder.ToString();
+            FileStream fStream = File.Open(FileName, FileMode.Create);
+            DES DESalg = DES.Create();
+            CryptoStream cStream = new CryptoStream(fStream, DESalg.CreateDecryptor(Key, IV), CryptoStreamMode.Write);
+            cStream.Write(Data, 0, Data.Length);
+            cStream.Close();
+            fStream.Close();
         }
+
+        
+
     }
 
 
+       
 }
+
+

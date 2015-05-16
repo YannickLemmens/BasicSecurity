@@ -24,7 +24,7 @@ namespace WpfApplication1
     {
         string boodschap;
         string encryptieFilePath;
-        int hashBoodschap;
+        public int hashBoodschap;
 
         public Encryptie()
         {
@@ -53,7 +53,7 @@ namespace WpfApplication1
 
         private void Start_Encryptie(object sender, RoutedEventArgs e)
         {
-            byte[] encData;
+            Byte[] encData;
 
             DES des = DES.Create();
 
@@ -76,8 +76,7 @@ namespace WpfApplication1
 
             EncryptFile(hashedBoodschap, @"File_3.txt", des.Key, des.IV);
 
-            MessageBox.Show("Encryptie is gelukt. Alle bestanden zijn te vinden in de debug folder van dit programma");
-            
+            MessageBox.Show("Encryptie gelukt, alles bestanden zijn terug te vinden in de Debug folder van dit programma");
         }
 
       
@@ -128,6 +127,8 @@ namespace WpfApplication1
             File.WriteAllText(@"File_2.txt", keyIV);
         }
 
+
+
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MainWindow main = new MainWindow();
@@ -136,16 +137,6 @@ namespace WpfApplication1
         }
 
        
-
-
-
-
-       
-
-       
-        
-
-
     }
         
 }
