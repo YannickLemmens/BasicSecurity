@@ -24,7 +24,7 @@ namespace WpfApplication1
     {
         string boodschap;
         string encryptieFilePath;
-        public int hashBoodschap;
+        public static byte[] hashBoodschap;
 
         public Encryptie()
         {
@@ -70,13 +70,22 @@ namespace WpfApplication1
             string privateB = File.ReadAllText("Private_B.txt");
 
             EncryptDesKey(publicB, des.Key, des.IV);
-            hashBoodschap = boodschap.GetHashCode();
+            MD5 hash = MD5.Create();
+            hashBoodschap = hash.ComputeHash(Encoding.UTF8.GetBytes(boodschap));
             
-            byte[] hashedBoodschap = BitConverter.GetBytes(hashBoodschap);
+            
             Encrypt(hashBoodschap, privateA);
             //EncryptFile(hashedBoodschap, @"File_3.txt", des.Key, des.IV);
 
-            MessageBox.Show("Encryptie gelukt, alles bestanden zijn terug te vinden in de Debug folder van dit programma");
+            MessageBoxResult result = MessageBox.Show("Encryptie gelukt, alles bestanden zijn terug te vinden in de Debug folder van dit programma \n Na het drukken op OK gaat u terug naar het beginscherm.","End of encryption",MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                
+                MainWindow main = new MainWindow();
+                this.Close();
+                main.Show();
+            }
+            
         }
 
       
@@ -99,14 +108,13 @@ namespace WpfApplication1
 
         private void EncryptFile(Byte[] Data, String FileName, byte[] Key, byte[] IV)
         {
-           
-            
-                FileStream fStream = File.Open(FileName, FileMode.Create);
-                DES DESalg = DES.Create();
-                CryptoStream cStream = new CryptoStream(fStream, DESalg.CreateEncryptor(Key, IV), CryptoStreamMode.Write);
-                cStream.Write(Data, 0, Data.Length);
-                cStream.Close();
-                fStream.Close();
+         
+            FileStream fStream = File.Open(FileName, FileMode.Create);
+            DES DESalg = DES.Create();
+            CryptoStream cStream = new CryptoStream(fStream, DESalg.CreateEncryptor(Key, IV), CryptoStreamMode.Write);
+            cStream.Write(Data, 0, Data.Length);
+            cStream.Close();
+            fStream.Close();
 
         
         }
@@ -127,10 +135,10 @@ namespace WpfApplication1
             File.WriteAllText(@"File_2.txt", keyIV);
         }
 
-        private void Encrypt(int hash, string privateKey)
+        private void Encrypt(byte[] hash, string privateKey)
         {
-           
-            byte[] byteArray = BitConverter.GetBytes(hash);
+
+            byte[] byteArray = hash;
             byte[] EncryptedFile;
             string privateKeyString = privateKey;
 

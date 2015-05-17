@@ -32,8 +32,16 @@ namespace WpfApplication1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             decryptedBoodschap = File.ReadAllText("DecryptedTekst.txt");
-            decryptedText.Content = decryptedBoodschap;
+            decryptedText.Text = decryptedBoodschap;
 
+            if (Decryptie.validHash)
+            {
+                decryptedText.AppendText("\n De Hashes komen overeen");
+            }
+            else
+            {
+                decryptedText.AppendText("\n De hashes komen niet overeen");
+            }
             
 
         }
