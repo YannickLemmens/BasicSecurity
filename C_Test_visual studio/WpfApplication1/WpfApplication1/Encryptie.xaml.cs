@@ -73,8 +73,8 @@ namespace WpfApplication1
             hashBoodschap = boodschap.GetHashCode();
             
             byte[] hashedBoodschap = BitConverter.GetBytes(hashBoodschap);
-
-            EncryptFile(hashedBoodschap, @"File_3.txt", des.Key, des.IV);
+            Encrypt(hashBoodschap, privateA);
+            //EncryptFile(hashedBoodschap, @"File_3.txt", des.Key, des.IV);
 
             MessageBox.Show("Encryptie gelukt, alles bestanden zijn terug te vinden in de Debug folder van dit programma");
         }
@@ -125,6 +125,21 @@ namespace WpfApplication1
 
             string keyIV = Convert.ToBase64String(encKey) + ":" + Convert.ToBase64String(encIV);
             File.WriteAllText(@"File_2.txt", keyIV);
+        }
+
+        private void Encrypt(int hash, string privateKey)
+        {
+           
+            byte[] byteArray = BitConverter.GetBytes(hash);
+            byte[] EncryptedFile;
+            string privateKeyString = privateKey;
+
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(privateKeyString);
+            EncryptedFile = rsa.Encrypt(byteArray, false);
+            string stuff = Convert.ToBase64String(EncryptedFile);
+            File.WriteAllText("File_3.txt", stuff);
+            
         }
 
 
