@@ -28,10 +28,12 @@ namespace WpfApplication1
         string Public_A;
         string Private_B;
 
-        int hash_decrypted;
+        byte[] hash_decrypted;
 
         public byte[] desKey;
         public byte[] desIV;
+
+        public static bool validHash;
 
 
         public Decryptie()
@@ -138,13 +140,16 @@ namespace WpfApplication1
                 DecryptDesKey(File_2);
 
                 decData = File.ReadAllBytes(File_1);
-
                 DecryptFile(decData, @"DecryptedTekst.txt", desKey, desIV);
-                hash_decrypted = File.ReadAllText("DecryptedTekst.txt").GetHashCode();
+                
+                MD5 hash = MD5.Create();
+                hash_decrypted = hash.ComputeHash(File.ReadAllBytes("DecryptedTekst.txt"));
+                VerifyHash(File_3, Public_A);
+
 
                 Decrypted decryptWindow = new Decrypted();
                 decryptWindow.Show();
-                this.Close();
+                
             }
             else
             {
@@ -163,7 +168,7 @@ namespace WpfApplication1
             byte[] DecKey;
             byte[] DecIV;
 
-            using (StreamReader sr = File.OpenText("File_2.txt"))
+            using (StreamReader sr = File.OpenText(file))
             {
                 encKeyIV = sr.ReadToEnd();
             }
@@ -196,6 +201,32 @@ namespace WpfApplication1
             cStream.Write(Data, 0, Data.Length);
             cStream.Close();
             fStream.Close();
+        }
+
+        private bool VerifyHash(string file, string publicKey)
+        {
+
+
+            byte[] file3Array = File.ReadAllBytes(file);
+            string publicKeystring;
+            validHash = false;
+            
+            
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            publicKeystring = File.ReadAllText(publicKey);
+            rsa.FromXmlString(publicKeystring);
+            int hashOorspronkelijk = BitConverter.ToInt32(Encryptie.hashBoodschap,0);
+            int hashDecrypted = BitConverter.ToInt32(hash_decrypted, 0);
+            if (hashOorspronkelijk == hashDecrypted)
+            {
+                validHash = true;
+            }
+            else
+            {
+                validHash = false;
+            }
+
+            return validHash;
         }
 
         
