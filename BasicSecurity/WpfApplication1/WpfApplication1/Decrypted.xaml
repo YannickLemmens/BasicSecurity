@@ -10,7 +10,7 @@
             </LinearGradientBrush>
         </Grid.Background>
         <TextBox Name="decryptedText" HorizontalAlignment="Stretch" Foreground="White" Background="Transparent" VerticalAlignment="Stretch" Margin="10,10,10,50" TextWrapping="Wrap"/>
-        <Button Content="Terug naar begin" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" Width="150" Height="30" Margin="0,0,10,10">
+        <Button Content="Terug naar begin" HorizontalAlignment="Right" Foreground="White" VerticalAlignment="Bottom" Width="150" Height="30" Margin="0,0,10,10" Click="Button_Click">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFAE5B03" Offset="1"/>

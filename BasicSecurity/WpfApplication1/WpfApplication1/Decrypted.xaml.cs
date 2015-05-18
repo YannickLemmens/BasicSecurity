@@ -36,14 +36,21 @@ namespace WpfApplication1
 
             if (Decryptie.validHash)
             {
-                decryptedText.AppendText("\n De Hashes komen overeen");
+                decryptedText.AppendText("\n \n De Hashes komen overeen");
             }
             else
             {
-                decryptedText.AppendText("\n De hashes komen niet overeen");
+                decryptedText.AppendText("\n \n De hashes komen niet overeen");
             }
             
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow main = new MainWindow();
+            this.Close();
+            main.Show();
         }
     }
 }
